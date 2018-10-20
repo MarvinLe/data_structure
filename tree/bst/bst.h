@@ -15,7 +15,7 @@ typedef struct BSTreeNode{
 } Node, *BSTree;
 
 // 创建节点函数，本文件可见
-static Node* create_bstree_node(TYpe key, Node* parent, Node* left, Node* right);
+static Node* create_bstree_node(Type key, Node* parent, Node* left, Node* right);
 
 // 前序递归遍历
 void preorder_bstree(BSTree tree);
@@ -37,5 +37,30 @@ Node* bstree_maximum(BSTree tree);
 
 // 查找 最小值
 Node* bstree_minimum(BSTree tree);
+
+// 查找 前驱节点;;    前驱节点:左子树中最大的节点
+Node* bstree_predecessor(Node *node);
+
+// 查找 后继节点;;    后继节点:右子树中最小的节点
+Node* bstree_successor(Node *node);
+
+// 内部插入 helper
+static BSTree bstree_insert(BSTree tree, Node *z);
+
+// 外部插入节点
+BSTree insert_bstree(BSTree tree, Type key);
+
+//  内部删除 helper
+static BSTree bstree_delete(BSTree tree, Node *z);
+
+// 外部删除
+BSTree delete_bstree(BSTree tree, Type key);
+
+// 打印二叉树
+void print_bstree(BSTree tree, Type key, int direction);
+
+// 销毁
+void destroy_bstree(BSTree tree);
+
 
 #endif //ALGORITHM_BST_H
