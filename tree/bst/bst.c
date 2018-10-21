@@ -157,6 +157,7 @@ static BSTree bstree_insert(BSTree tree, Node *node)
 //            return tree;
 //        }
     }
+    printf("here:%d\n",pos);
     node->parent = pos;
     if (pos == NULL)
         tree = node;
@@ -296,7 +297,6 @@ void destroy_bstree(BSTree tree)
 {
     if(tree == NULL)
         return;
-
     if(tree->left != NULL)
         destroy_bstree(tree->left);
     if(tree->right != NULL)
