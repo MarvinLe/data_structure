@@ -410,7 +410,6 @@ void BSTree<T>::destroy(BSTNode<T>* &tree)
         destroy(tree->left);
     if(tree->right != nullptr)
         destroy(tree->right);
-
     delete  tree;
     tree = nullptr;
 }
