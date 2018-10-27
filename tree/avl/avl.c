@@ -31,6 +31,24 @@ int avltree_height(AVLTree tree)
     return HEIGHT(tree);
 }
 
+// 找最小节点
+static Node* avltree_minimum(AVLTree tree)
+{
+     if (tree == NULL)
+         return NULL;
+     while(tree->left != NULL)
+         tree = tree->left;
+     return tree;
+ }
+
+ static Node* avltree_maximum(AVLTree tree)
+ {
+    if(tree == NULL)
+        return NULL;
+    while(tree->right != NULL)
+        tree = tree->right;
+    return tree;
+ }
 
 // LL 旋转 左单旋转
 static Node* left_left_rotation(AVLTree tree){
@@ -110,7 +128,101 @@ Node* avltree_insert(AVLTree tree, Type key)
     return tree;
 }
 
-//
+/*
+ *   删除节点z, 返回根节点
+ *
+ */
+
+static Node* delete_node(AVLTree tree, Node *z)
+{
+    if(tree == NULL || z == NULL)
+        return tree;
+
+    // 删除的节点在左子树
+    if(z->key < tree->key)
+    {
+        tree->left = delete_node(tree->left, z);
+
+        // 调整平衡
+        if(HEIGHT(tree->right) - HEIGHT(tree->left) == 2)
+        {
+            Node *r = tree->right;
+
+            // RR
+            if(HEIGHT(r->right) > HEIGHT(r->left))
+            {
+                tree = right_right_rotation(tree);
+            } else   // RL
+            {
+                tree = right_left_rotation(tree);
+            }
+        }
+    } else if(z->key > tree>key)
+    // 删除的节点在右子树
+    {
+        tree->right  = delete_node(tree->right, z);
+
+        // 调整高度
+        if(HEIGHT(tree->left) - HEIGHT(tree->right)  == 2)
+        {
+            Node *l = tree->left;
+
+            // LL
+            if(HEIGHT(l->left) > HEIGHT(l->right))
+            {
+                tree = left_left_rotation(tree);
+            } else   // LR
+            {
+                tree = left_right_rotation(tree);
+            }
+        }
+    } else   // tree就是那个节点
+    {
+        if((tree->left) && (tree->right))
+        {
+            // 如果左树比右树高，从左树找最大的
+            if (HEIGHT(tree->left) > HEIGHT(tree->right)) {
+                Node *max = avltree_maximum(tree->left);
+                tree->key = max->key;
+                tree->left = delete_node(tree->left, max);
+            } else   // 从右子树找最小的
+            {
+                Node *min = avltree_minimum(tree->right);
+                tree->key = min->key;
+                tree->right = delete_node(tree->right, min);
+            }
+        } else
+        {
+            Node *temp = tree;
+            tree = tree->left ? tree->left : tree->right;
+            free(temp);
+        }
+    }
+    return  tree;
+}
+
+
+// 搜索
+Node* avltree_search(AVLTree tree, Type key)
+{
+    if(tree == NULL || tree->key == key)
+        return tree;
+    if(key < tree->key)
+        return avltree_search(tree->left, key);
+    else
+        return avltree_search(tree->right, key);
+}
+
+// 删除接口 ，对外
+Node* avltree_delete(AVLTree tree, Type key)
+{
+    Node *z;
+    if((z = avltree_search(tree, key)) != NULL)
+    {
+        tree =  delete_node(tree, z);
+    }
+    return tree;
+}
 
 
 

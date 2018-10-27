@@ -14,8 +14,17 @@ typedef struct ALVTreeNode{
     struct AVLTreeNode* right;
 } Node, *AVLTree;
 
+// 找最小节点
+static Node* avltree_minimum(AVLTree tree);
+
+// 找最大节点
+static Node* avltree_maximum(AVLTree tree);
+
 //  创建树节点
 static Node* avltree_create_node(Type key, Node* left, Node* right);
+
+// 搜索节点
+Node* avltree_search(AVLTree tree, Type key)
 
 // 获取树高度
 int avltree_height(AVLTree tree);
