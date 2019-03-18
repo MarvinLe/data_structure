@@ -113,7 +113,7 @@ Node* bstree_predecessor(Node *node)
     return parent;
 }
 
-//   后继节点: 中序遍历的后一个
+//   后继节点: 中序遍历的后一个, 如果存在右子树，则是右子树中最小节点，否则就递归向上，直到当前节点出现在某个节点的左子树，
 Node* bstree_successor(Node *node)
 {
     // 如果x存在左孩子，则"node的后继结点"为 "以右孩子为根的子树的最小结点"。
@@ -124,7 +124,7 @@ Node* bstree_successor(Node *node)
     // 2) node是"一个右孩子"，则查找"node的最低的祖父结点，并且node位于该祖父结点的左子树"，找到的这个"最低的祖父结点"就是"node的前驱结点"。
 
     Node* parent = node->parent;
-
+    // 递归向上
     //while 既当作if(node右孩子)，又能循环找到第一个node在左边子树的祖父节点
     while(parent && node == parent->right)
     {
